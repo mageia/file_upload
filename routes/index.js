@@ -9,11 +9,10 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'File Upload Test' });
 });
 
-router.post('/upload', upload.single('key'), function(req, res){
-  fs.readFile(req.file.path, function(e, d){
-    console.log(d);
-  });
-  console.log(req.file.path);
+var uploadOption = [{name: 'key', maxCount: 1}, {name: 'cert', maxCount: 1}];
+router.post('/upload', upload.fields(uploadOption), function(req, res){
+  console.log(req.files.key[0].path);
+  console.log(req.files.cert[0].path);
   res.status(204).end()
 });
 
